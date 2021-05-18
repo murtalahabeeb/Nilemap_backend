@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,34 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return 'welcome';
+    $categories =Category::all();
+        // foreach($locations as $location){
+        //     $location->category;
+        //     //$location->room;
+        //     foreach($location->room as $r){
+        //         $r->category;
+        //     }
+        // }
+
+
+        // foreach($categories as $cate){
+            
+        //     foreach($cate->location as $c){
+        //         foreach($c->room as $r){
+        //             $r->category;
+        //         }
+        //     }
+        // }
+        
+
+        foreach($categories as $category){
+            foreach($category->room as $room){
+                $room->location;
+            }
+
+            $category->location;
+        }
+        return $categories;
 });
 use Illuminate\Http\Request;
 use App\Http\Controllers\LocationController;
