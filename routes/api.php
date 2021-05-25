@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     
 //Route::apiResource("location", LocationController::class);
 Route::post("login",[UserController::class,'index']);
-Route::get("getuser",[UserController::class,'show']);
+Route::get("getuser/{id}",[UserController::class,'show']);
 //Route::get("create",[UserController::class,'create']);
 Route::post("adduser",[UserController::class,'store']);
 //Route::get("edit/{id}",[UserController::class,'edit']);
