@@ -9,6 +9,7 @@ use App\Models\Location;
 use App\Models\Room;
 use App\Models\Category;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
@@ -130,7 +131,7 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete();
+        $request->user()->tokens()->delete();
         return ['message' => 'User Logged out'];
     }
 }

@@ -23,9 +23,9 @@ use App\Http\Controllers\ActivityController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['middleware' => 'auth:sanctum'], function(){
+Route::group(['middleware' => ['auth:sanctum']], function(){
     //All secure URL's
-
+    Route::post("logout",[UserController::class,'logout']);
     });
     
 //Route::apiResource("location", LocationController::class);
@@ -43,7 +43,7 @@ Route::post("add",[LocationController::class,'store']);
 Route::get("edit/{id}",[LocationController::class,'edit']);
 Route::post("update/{id}",[LocationController::class,'update']);
 Route::post("delete/{id}",[LocationController::class,'destroy']);
-Route::post("logout",[UserController::class,'logout']);
+
 
 
 //Route::apiResource("location", LocationController::class);
