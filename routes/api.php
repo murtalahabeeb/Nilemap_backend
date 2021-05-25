@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     });
     
 //Route::apiResource("location", LocationController::class);
-Route::post("login",[UserController::class,'index']);
+Route::post("login",[UserController::class,'login']);
 Route::get("getuser/{id}",[UserController::class,'show']);
 //Route::get("create",[UserController::class,'create']);
 Route::post("adduser",[UserController::class,'store']);
@@ -43,6 +43,7 @@ Route::post("add",[LocationController::class,'store']);
 Route::get("edit/{id}",[LocationController::class,'edit']);
 Route::post("update/{id}",[LocationController::class,'update']);
 Route::post("delete/{id}",[LocationController::class,'destroy']);
+Route::post("logout",[UserController::class,'logout']);
 
 
 //Route::apiResource("location", LocationController::class);

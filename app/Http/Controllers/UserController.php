@@ -19,23 +19,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-        //return User::all()
-        $user= User::where('id', $request->user_id)->first();
-        // print_r($data);
-            if (!$user || !Hash::check($request->password, $user->password)) {
-                return response([
-                    'message' => ['These credentials do not match our records.']
-                ], 404);
-            }
-        
-             $token = $user->createToken('my-app-token')->plainTextToken;
-        
-            $response = [
-                'user' => $user,
-                'token' => $token
-            ];
-        
-             return response($response, 201);
+        return User::all();
     }
 
     /**
@@ -119,5 +103,34 @@ class UserController extends Controller
         $user->delete();
         return ['status'=>'successful'];
         
+    }
+
+
+    public function login(Request $request)
+    {
+
+        $user= User::where('id', $request->user_id)->first();
+        // print_r($data);
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                return response([
+                    'message' => ['These credentials do not match our records.']
+                ], 404);
+            }
+        
+             $token = $user->createToken('my-app-token')->plainTextToken;
+        
+            $response = [
+                'user' => $user,
+                'token' => $token
+            ];
+        
+             return response($response, 201);
+    }
+
+
+    public function logout(Request $request)
+    {
+        auth()->user()->tokens()->delete();
+        return 'message' => ['User Logged out'];
     }
 }
