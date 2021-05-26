@@ -37,7 +37,7 @@ Route::post("adduser",[UserController::class,'store']);
 Route::post("updateuser/{id}",[UserController::class,'update']);
 Route::delete("deleteuser/{id}",[UserController::class,'destroy']);
 
-Route::get("home",[LocationController::class,'index']);
+Route::get("categories",[LocationController::class,'index']);
 //Route::get("create",[LocationController::class,'create']);
 Route::post("add",[LocationController::class,'store']);
 Route::get("edit/{id}",[LocationController::class,'edit']);

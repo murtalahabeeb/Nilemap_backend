@@ -19,6 +19,13 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
+        foreach($categories as $category){
+            foreach($category->room as $room){
+                $room->location;
+            }
+
+            $category->location;
+        }
         return $categories;
     }
 

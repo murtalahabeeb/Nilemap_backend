@@ -18,15 +18,14 @@ class LocationController extends Controller
      */
     public function index()
     {
-        //$locations =Location::all();
-        $categories =Category::all();
-        // foreach($locations as $location){
-        //     $location->category;
-        //     //$location->room;
-        //     foreach($location->room as $r){
-        //         $r->category;
-        //     }
-        // }
+        $locations =Location::all();
+        foreach($locations as $location){
+            $location->category;
+            //$location->room;
+            foreach($location->room as $r){
+                $r->category;
+            }
+        }
 
 
         // foreach($categories as $cate){
@@ -39,14 +38,7 @@ class LocationController extends Controller
         // }
         
 
-        foreach($categories as $category){
-            foreach($category->room as $room){
-                $room->location;
-            }
-
-            $category->location;
-        }
-        return $categories;
+        return $locations;
     }
 
     /**
@@ -93,7 +85,7 @@ class LocationController extends Controller
                 $room->room_name =r['room_name'];
                 $room->category_id=$r['rcategory_id'];
                 $room->location_id =$location->Location_id;
-                $room_saved = $room->save()
+                $room_saved = $room->save();
                 if(!$room_saved){
                     array_push($arr,$r['room_num']);
                 }
