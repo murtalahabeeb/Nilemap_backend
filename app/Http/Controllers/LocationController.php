@@ -81,7 +81,9 @@ class LocationController extends Controller
         $activity->Performed_by = $request->user_id;
         $activity->Type =$request->type; //Create
         $activity->Change = $request->activity_performed; //change will be changed to activity performed later on
-        if($location->save() && $activity->save()){
+        $loc_saved = $location->save();
+        $act_saved = $activity->save();
+        if($loc_saved && $act_saved ){
         
             foreach($obj['rooms'] as $r){
                 $room = new Room();
@@ -91,16 +93,17 @@ class LocationController extends Controller
                 $room->room_name =r['room_name'];
                 $room->category_id=$r['rcategory_id'];
                 $room->location_id =$location->Location_id;
-                if(!$room->save()){
+                $room_saved = $room->save()
+                if(!$room_saved){
                     array_push($arr,$r['room_num']);
                 }
             }
 
                 return ['status'=>'success','room'=>$arr];
-        }elseif($location->save() && !$activity->save()){
+        }elseif($loc_saved && !$act_saved){
             $location->delete();
             return ['status'=>'failed'];
-        }elseif(!$location->save() && $activity->save()){
+        }elseif(!$loc_saved && $act_saved){
             $activity->delete();
             return ['status'=>'failed'];
         }

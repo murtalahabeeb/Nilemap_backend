@@ -89,7 +89,9 @@ class RoomController extends Controller
         $activity->Performed_by = $request->user_id;
         $activity->Type =$request->type; //edit
         $activity->Change = $request->activity_performed; //change will be changed to activity performed later on
-        if($activity->save()){
+        $act_saved = $activity->save();
+
+        if($act_saved){
             $room->Room_num = $request->room_num;
             $room->Desc = $request->desc;
             $room->Floor = $request->floor;
@@ -97,8 +99,8 @@ class RoomController extends Controller
             $room->category_id = $request->category_id;
             $room->location_id = $request->location_id;
 
-            
-            if(!$room->save()){
+            $room_saved =$room->save();
+            if(!$room_saved){
                 $activity->delete();
                 return ['status'=>'failed'];
             }
@@ -124,15 +126,15 @@ class RoomController extends Controller
         $activity->Performed_by = $request->user_id;
         $activity->Type =$request->type; //Delete
         $activity->Change = $request->activity_performed; //change will be changed to activity performed later on
-        $a=$activity->save();
-        if($a){
+        $act_saved=$activity->save();
+        if($act_saved){
 
-            
-            if(!$room->delete()){
+            $roomdel=$room->delete();
+            if(!$roomdel){
                 $activity->delete();
                 return ['status'=>'failed'];
             }
-            echo Room::all();
+            
           return ['status'=>'success'];
         }else{
             return ['status'=>'failed'];
