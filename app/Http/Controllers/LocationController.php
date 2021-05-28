@@ -59,31 +59,29 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {  
-
-        $obj = $request;
         $arr =array(); //array of failed to add rooms
         $location = new Location();
-        $location->Name=$obj['lname'];
-        $location->Latitude=$obj['latitude'];
-        $location->Longitude=$obj['longitude'];
-        $location->category_id=$obj['category_id'];
-
+        $location->Name=$request->input('lname');
+        $location->Latitude=$request->input('latitude');
+        $location->Longitude=$request->input('longitude');
+        $location->category_id=$request->input('category_id');
+        $loc_saved = $location->save();
         $activity = new Activity();
         $activity->Location_id = $location->Location_id;
-        $activity->Performed_by = $request->user_id;
-        $activity->Type =$request->type; //Create
-        $activity->Change = $request->activity_performed; //change will be changed to activity performed later on
-        $loc_saved = $location->save();
+        $activity->Performed_by = $request->input('user_id');
+        $activity->Type =$request->input('type'); //Create
+        $activity->Change = $request->input('activity_performed'); //change will be changed to activity performed later on
+        
         $act_saved = $activity->save();
         if($loc_saved && $act_saved ){
         
-            foreach($obj['rooms'] as $r){
+            foreach($request->input('rooms') as $r){
                 $room = new Room();
                 $room->Room_num =$r['room_num'];
                 $room->Desc =$r['desc'];
                 $room->Floor =$r['floor'];
-                $room->room_name =r['room_name'];
-                $room->category_id=$r['rcategory_id'];
+                $room->room_name =$r['room_name'];
+                $room->category_id=$r['rcategory'];
                 $room->location_id =$location->Location_id;
                 $room_saved = $room->save();
                 if(!$room_saved){
@@ -179,9 +177,9 @@ class LocationController extends Controller
     
         $activity = new Activity();
         $activity->Location_id = $id;
-        $activity->Performed_by = $request->user_id;
-        $activity->Type =$request->type; //Delete
-        $activity->Change = $request->activity_performed; //change will be changed to activity performed later on
+        $activity->Performed_by = $request->input('user_id');
+        $activity->Type =$request->input('type'); //Delete
+        $activity->Change = $request->input('activity_performed'); //change will be changed to activity performed later on
         if($activity->save()){
 
             
