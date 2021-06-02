@@ -14,7 +14,7 @@ class CreateActivitiesTable extends Migration
     public function up()
     {
         Schema::create('location_activities', function (Blueprint $table) {
-            $table->foreignId("Location_id")->nullable()->references('Location_id')->on('locations')->nullOnDelete();
+            $table->foreignId("id")->nullable()->references('Location_id')->on('locations')->nullOnDelete();
             $table->string("Type");
             $table->string("Change");
             $table->timestamps();

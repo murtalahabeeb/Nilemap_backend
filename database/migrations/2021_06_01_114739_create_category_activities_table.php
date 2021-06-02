@@ -14,7 +14,7 @@ class CreateCategoryActivitiesTable extends Migration
     public function up()
     {
         Schema::create('category_activities', function (Blueprint $table) {
-            $table->foreignId("category_id")->nullable()->references('id')->on('categories')->nullOnDelete();
+            $table->foreignId("id")->nullable()->references('id')->on('categories')->nullOnDelete();
             $table->string("Type");
             $table->string("Change");
             $table->timestamps();

@@ -30,7 +30,7 @@ class ActivityController extends Controller
         $room_activities = DB::table('room_activities')->get();
 
 $category_activities = DB::table('category_activities')->get();
-// $deleted=DB::table('deleted_entities');
+$deleted=DB::table('deleted_entities')->get();
     $all_activities=
        $location_activities->union($room_activities)->union($category_activities);
         return $all_activities;

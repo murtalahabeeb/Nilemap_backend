@@ -14,7 +14,7 @@ class CreateRoomActivitiesTable extends Migration
     public function up()
     {
         Schema::create('room_activities', function (Blueprint $table) {
-            $table->foreignId("Room_no")->nullable()->references('Room_no')->on('rooms')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId("id")->nullable()->references('Room_no')->on('rooms')->cascadeOnUpdate()->nullOnDelete();
             $table->string("Type");
             $table->string("Change");
             $table->timestamps();
