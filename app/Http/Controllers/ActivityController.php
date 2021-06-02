@@ -26,14 +26,14 @@ class ActivityController extends Controller
         // $activities = Activity::all();
         // return $activities;
 
-        $location_activities = DB::table('location_activities')->get();
+        $location_activities = DB::table('location_activities');
 $room_activities = DB::table('room_activities');
 
-$category_activities = DB::table('category_activities')->get();
-$deleted=DB::table('deleted_entities')->get();
+$category_activities = DB::table('category_activities');
+$deleted=DB::table('deleted_entities');
     $all_activities=
        $location_activities->union($room_activities)
-        ->union($category_activities)->get();
+        ->union($category_activities)->union($deleted)->orderBy('created_at', 'desc')->get();
         return $all_activities;
         
     }
