@@ -33,7 +33,7 @@ $category_activities = DB::table('category_activities')->get();
 $deleted=DB::table('deleted_entities')->get();
     $all_activities=
        $location_activities->union($room_activities)
-        ->union($category_activities)->orderBy('created_at', 'desc')->get();
+        ->union($category_activities)->get();
         return $all_activities;
         
     }
