@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\DB
 use App\Models\Location;
 use App\Models\Room;
 use App\Models\User;
@@ -26,14 +27,14 @@ class ActivityController extends Controller
         // $activities = Activity::all();
         // return $activities;
 
-        $location_activities = DB::table('location_activities');
+        $location_activities = DB::table('location_activities')->get();
 $room_activities = DB::table('room_activities');
 
-$category_activities = DB::table('category_activities');
-$deleted=DB::table('deleted_entities');
+$category_activities = DB::table('category_activities')->get();
+$deleted=DB::table('deleted_entities')->get();
     $all_activities=
        $location_activities->union($room_activities)
-        ->union($category_activities)->union($deleted)->orderBy('created_at', 'desc')->get();
+        ->union($category_activities)->orderBy('created_at', 'desc')->get();
         return $all_activities;
         
     }
