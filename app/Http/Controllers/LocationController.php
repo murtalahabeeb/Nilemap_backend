@@ -8,6 +8,10 @@ use App\Models\Room;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Activity;
+use App\Models\RoomActivity;
+use App\Models\CategoryActivity;
+use App\Models\DeletedEntity;
+
 
 class LocationController extends Controller
 {
@@ -18,14 +22,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        $locations =Location::all();
-        foreach($locations as $location){
-            $location->category;
-            //$location->room;
-            foreach($location->room as $r){
-                $r->category;
-            }
-        }
+        $locations =Location::where("category_id",null)->get();
+        
 
 
         // foreach($categories as $cate){
@@ -68,7 +66,6 @@ class LocationController extends Controller
         $loc_saved = $location->save();
         $activity = new Activity();
         $activity->Location_id = $location->Location_id;
-        $activity->Performed_by = $request->input('user_id');
         $activity->Type =$request->input('type'); //Create
         $activity->Change = $request->input('activity_performed'); //change will be changed to activity performed later on
         
@@ -77,7 +74,7 @@ class LocationController extends Controller
         
             foreach($request->input('rooms') as $r){
                 $room = new Room();
-                $room->Room_num =$r['room_num'];
+                $room->Room_no =$r['room_num'];
                 $room->Desc =$r['desc'];
                 $room->Floor =$r['floor'];
                 $room->room_name =$r['room_name'];
@@ -87,6 +84,13 @@ class LocationController extends Controller
                 if(!$room_saved){
                     array_push($arr,$r['room_num']);
                 }
+                $ractivity = new RoomActivity();
+                $ractivity->Room_no = $r['room_num'];
+        
+        $ractivity->Type =$request->input('type'); //Create
+        $ractivity->Change = "Added Room".$r['room_num'];//change will be changed to activity performed later on
+        $ractivity->save();
+                
             }
 
                 return ['status'=>'success','room'=>$arr];
@@ -132,31 +136,48 @@ class LocationController extends Controller
     public function update(Request $request, $id)
     {
         $obj = $request;
+        $arr =array(); //array of failed to add rooms
         $location = Location::findOrFail($id);
         $location->Name=$obj['lname'];
         $location->Latitude=$obj['latitude'];
         $location->Longitude=$obj['longitude'];
         $location->category_id=$obj['category_id'];
-        $location->save();
-        
-        foreach($obj['rooms'] as $r){
-            $room = new Room();
-            $room->Room_num =$r['room_num'];
-            $room->Desc =$r['desc'];
-            $room->Floor =$r['floor'];
-            $room->room_name =$r['room_name'];
-            $room->category_id=$r['rcategory_id'];
-            $room->location_id =$location->Location_id;
-            $room->save();
-        }
+        $loc_saved= $location->save();
         $activity = new Activity();
         $activity->Location_id = $location->Location_id;
-        $activity->Performed_by = $request->user_id;
         $activity->Type =$request->type; //Edit
-        $activity->Change = $request->activity_performed; //change will be changed to activity performed later on
-        if($activity->save()){
-            return ['status'=>'success'];
-        }else{
+        $activity->Change = "updated ".$location->Location_id."to $location->Name: ".$obj['lname'].", $location->Latitude: ".$obj['latitude'].", $location->Longitude: ".$obj['longitude'].", $location->category_id: ".$obj['category_id'];//change will be changed to activity performed later on
+        $act_saved = $activity->save();
+        
+        
+        
+        if($loc_saved && $act_saved){
+            foreach($obj['rooms'] as $r){
+                $room = new Room();
+                $room->Room_no =$r['room_num'];
+                $room->Desc =$r['desc'];
+                $room->Floor =$r['floor'];
+                $room->room_name =$r['room_name'];
+                $room->category_id=$r['rcategory'];
+                $room->location_id =$location->Location_id;
+                $room_saved = $room->save();
+                if(!$room_saved){
+                    array_push($arr,$r['room_num']);
+                }
+                $ractivity = new RoomActivity();
+                $ractivity->Room_no = $r['room_num'];
+        
+        $ractivity->Type ="CREATE";
+        $ractivity->Change = "Added Room".$r['room_num'];//change will be changed to activity performed later on
+        $ractivity->save();
+                
+            }
+            return ['status'=>'success','room'=>$arr];
+        }elseif($loc_saved && !$act_saved){
+            $location->delete();
+            return ['status'=>'failed'];
+        }elseif(!$loc_saved && $act_saved){
+            $activity->delete();
             return ['status'=>'failed'];
         }
 
@@ -173,24 +194,16 @@ class LocationController extends Controller
     {
         
         $loc = Location::findOrFail($id);
-            
+        $loc->delete();
     
-        $activity = new Activity();
-        $activity->Location_id = $id;
-        $activity->Performed_by = $request->input('user_id');
-        $activity->Type =$request->input('type'); //Delete
-        $activity->Change = $request->input('activity_performed'); //change will be changed to activity performed later on
-        if($activity->save()){
-
-            
-            if(!$loc->delete()){
-                $activity->delete();
-                return ['status'=>'failed'];
-            }
+        $activity = new DeletedEntity();
+        //$activity->Category_id = $cate->id;
+        // $activity->Performed_by = $request->user_id;
+        $activity->Deleted_entity=$request->input('deleted'); //Edit
+        $act_saved=$activity->save();
+       
           return ['status'=>'success'];
-        }else{
-            return ['status'=>'failed'];
-        }
+       
 
     }
 }

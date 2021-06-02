@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Room extends Model
 {
     protected $table = "rooms";
-    protected $primaryKey = "room_num";
+    protected $primaryKey = "Room_no";
 
     public function location(){
         return $this->belongsTo(Location::class,'location_id','Location_id');

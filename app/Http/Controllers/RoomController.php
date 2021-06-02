@@ -8,6 +8,10 @@ use App\Models\Room;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Activity;
+use App\Models\RoomActivity;
+use App\Models\CategoryActivity;
+use App\Models\DeletedEntity;
+
 
 class RoomController extends Controller
 {
@@ -18,7 +22,12 @@ class RoomController extends Controller
      */
     public function index()
     {
-        return Room::all();
+        $rooms =Room::where("category_id",null)->get();
+        foreach($rooms as $room){
+            $room->location;
+            
+        }
+        return $rooms;
     }
 
     /**
@@ -84,30 +93,26 @@ class RoomController extends Controller
     public function update(Request $request, $id)
     {
         $room =Room::findOrFail($id);
-        $activity = new Activity();
-        $activity->Location_id = $room->location_id;
-        $activity->Performed_by = $request->user_id;
-        $activity->Type =$request->type; //edit
-        $activity->Change = $request->activity_performed; //change will be changed to activity performed later on
-        $act_saved = $activity->save();
-
-        if($act_saved){
-            $room->Room_num = $request->room_num;
+        $room->Room_no = $request->room_num;
             $room->Desc = $request->desc;
             $room->Floor = $request->floor;
             $room->room_name = $request->room_name;
-            $room->category_id = $request->category_id;
+            $room->category_id = $request->rcategory;
             $room->location_id = $request->location_id;
 
             $room_saved =$room->save();
-            if(!$room_saved){
-                $activity->delete();
-                return ['status'=>'failed'];
-            }
+        $activity = new RoomActivity();
+
+        $activity->Room_no = $request->room_num;
+        $activity->Type =$request->type; //edit
+        $activity->Change = "updated ".$room->room_no."to Room_no: ".$request->room_num.", Room_name: ".$request->room_name.", Desc: ".$request->desc.", Floor: ".$request->floor.", Category_id: ".$request->category_id.", Location_id: ".$request->location_id; //change will be changed to activity performed later on
+        $act_saved = $activity->save();
+
+       
+            
+            
           return ['status'=>'success'];
-        }else{
-            return ['status'=>'failed'];
-        }
+        
         
     }
 
@@ -120,25 +125,17 @@ class RoomController extends Controller
     public function destroy(Request $request, $id)
     {
         $room = Room::findOrFail($id);
-
-        $activity = new Activity();
-        $activity->Location_id = $room->location_id;
-        $activity->Performed_by = $request->user_id;
-        $activity->Type =$request->type; //Delete
-        $activity->Change = $request->activity_performed; //change will be changed to activity performed later on
+        $room->delete();
+        $activity = new DeletedEntity();
+        //$activity->Category_id = $cate->id;
+        // $activity->Performed_by = $request->user_id;
+        $activity->Deleted_entity =$request->input('deleted'); //Edit
         $act_saved=$activity->save();
-        if($act_saved){
-
-            $roomdel=$room->delete();
-            if(!$roomdel){
-                $activity->delete();
-                return ['status'=>'failed'];
-            }
+       
+        
             
           return ['status'=>'success'];
-        }else{
-            return ['status'=>'failed'];
-        }
+      
     
     }
 }

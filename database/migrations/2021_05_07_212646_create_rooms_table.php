@@ -14,15 +14,16 @@ class CreateRoomsTable extends Migration
     public function up()
     {
         Schema::create('rooms', function (Blueprint $table) {
-            $table->id("Room_num");
+            $table->id("Room_no")->unique();
             $table->mediumText("Desc");
             $table->string("Floor");
-            $table->foreignId("location_id");
-            $table->string("room_name");
+            $table->foreignId("location_id")->references('Location_id')->on('locations')->cascadeOnDelete();
+            $table->string("room_name")->nullable();
             //$table->string("occupied_by");
-            $table->foreignId("category_id");
+            $table->foreignId("category_id")->nullable()->references('id')->on('categories')->nullOnDelete();
             $table->timestamps();
         });
+        
     }
 
     /**

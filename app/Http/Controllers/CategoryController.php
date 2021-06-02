@@ -8,6 +8,9 @@ use App\Models\Room;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Activity;
+use App\Models\CategoryActivity;
+use App\Models\RoomActivity;
+use App\Models\DeletedEntity;
 
 class CategoryController extends Controller
 {
@@ -48,10 +51,22 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $cate =new Category();
-        $cate->name =$request->name;
-        if($cate->save()){
+        $cate->Name =$request->name;
+       $cate_saved= $cate->save();
+        $activity = new CategoryActivity();
+        //$activity->Category_id = $cate->id;
+        // $activity->Performed_by = $request->user_id;
+        $activity->category_id=$cate->id;
+        $activity->Type =$request->type; //Edit
+        $activity->Change = $request->activity_performed; //change will be changed to activity performed later on
+        $act_saved = $activity->save();
+        if($cate_saved && $act_saved){
             return ['status'=>'success'];
-        }else{
+        }elseif($cate_saved && !$act_saved){
+            $cate->delete();
+            return ['status'=>'failed'];
+        }elseif(!$cate_saved && $act_saved){
+            $activity->delete();
             return ['status'=>'failed'];
         }
     }
@@ -88,12 +103,25 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $cate = Category::findorFail($id);
-        $cate->name=$request->name;
-        if($cate->save()){
-        return ['status'=>'success'];
-    }else{
-        return ['status'=>'failed'];
-    }
+        $cate->Name =$request->name;
+       $cate_saved= $cate->save();
+        $activity = new CategoryActivity();
+        //$activity->Category_id = $cate->id;
+        // $activity->Performed_by = $request->user_id;
+        $activity->Type =$request->type; //Edit
+        $activity->Change ="updated ".$cate->name."to $request->name:";
+        $activity->category_id =$cate->id; //Edit
+        $act_saved = $activity->save();
+        
+        if($cate_saved && $act_saved){
+            return ['status'=>'success'];
+        }elseif($cate_saved && !$act_saved){
+            $cate->delete();
+            return ['status'=>'failed'];
+        }elseif(!$cate_saved && $act_saved){
+            $activity->delete();
+            return ['status'=>'failed'];
+        }
     }
 
     /**
@@ -102,12 +130,25 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         $cate = Category::findOrFail($id);
-        if($cate->delete()){
+        // foreach($cate->location as $loc){
+        //     $loc->category_id=null;
+        //     $loc->save();
+        // }
+        
+        $cate_deleted=$cate->delete();
+
+        $activity = new DeletedEntity();
+        //$activity->Category_id = $cate->id;
+        // $activity->Performed_by = $request->user_id;
+        $activity->Deleted_entity =$request->deleted; //Edit
+        $act_saved = $activity->save();
+        if($cate_deleted && $act_saved){
             return ['status'=>'success'];
-        }else{
+        }elseif(!$cate_deleted && $act_saved){
+            $activity->delete();
             return ['status'=>'failed'];
         }
     }

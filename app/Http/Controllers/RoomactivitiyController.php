@@ -3,17 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Location;
-use App\Models\Room;
-use App\Models\User;
-use App\Models\Category;
-use App\Models\Activity;
-use App\Models\RoomActivity;
-use App\Models\CategoryActivity;
-use App\Models\DeletedEntity;
 
-
-class ActivityController extends Controller
+class RoomactivitiyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,19 +13,7 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        // $activities = Activity::all();
-        // return $activities;
-
-        $location_activities = DB::table('location_activities');
-$room_activities = DB::table('room_activities');
-
-$category_activities = DB::table('category_activities');
-$deleted=DB::table('deleted_entities');
-    $all_activities=
-       $location_activities->union($room_activities)
-        ->union($category_activities)->union($deleted)->orderBy('created_at', 'desc')->get();
-        return $all_activities;
-        
+        //
     }
 
     /**
@@ -55,7 +34,7 @@ $deleted=DB::table('deleted_entities');
      */
     public function store(Request $request)
     {
-        
+        //
     }
 
     /**
@@ -66,8 +45,7 @@ $deleted=DB::table('deleted_entities');
      */
     public function show($id)
     {
-        $user_act = Activity::where('Performed_by',$id)->get();
-        return $user_act;
+        //
     }
 
     /**
@@ -78,7 +56,7 @@ $deleted=DB::table('deleted_entities');
      */
     public function edit($id)
     {
-        
+        //
     }
 
     /**

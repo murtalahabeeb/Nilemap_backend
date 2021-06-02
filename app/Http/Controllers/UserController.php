@@ -8,6 +8,10 @@ use App\Models\Activity;
 use App\Models\Location;
 use App\Models\Room;
 use App\Models\Category;
+use App\Models\RoomActivity;
+use App\Models\CategoryActivity;
+use App\Models\DeletedEntity;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 class UserController extends Controller

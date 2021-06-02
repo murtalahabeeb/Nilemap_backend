@@ -26,23 +26,34 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['auth:sanctum']], function(){
     //All secure URL's
     Route::post("logout",[UserController::class,'logout']);
+    Route::get("getuser/{id}",[UserController::class,'show']);
+    Route::post("add",[LocationController::class,'store']);
+    Route::post("update/{id}",[LocationController::class,'update']);
+    Route::post("delete/{id}",[LocationController::class,'destroy']);
+    Route::post("updateroom/{id}",[RoomController::class,'update']);
+Route::post("deleteroom/{id}",[RoomController::class,'destroy']);
+Route::post("addcategory",[CategoryController::class,'store']);
+Route::post("updatecategory/{id}",[CategoryController::class,'update']);
+Route::post("deletecategory/{id}",[CategoryController::class,'destroy']);
+
+Route::post("activities",[ActivityController::class,'index']);
+Route::get("activities/{id}",[ActivityController::class,'show']);
     });
     
 //Route::apiResource("location", LocationController::class);
 Route::post("login",[UserController::class,'login']);
-Route::get("getuser/{id}",[UserController::class,'show']);
+
 //Route::get("create",[UserController::class,'create']);
 Route::post("adduser",[UserController::class,'store']);
 //Route::get("edit/{id}",[UserController::class,'edit']);
-Route::post("updateuser/{id}",[UserController::class,'update']);
-Route::delete("deleteuser/{id}",[UserController::class,'destroy']);
+//Route::post("updateuser/{id}",[UserController::class,'update']);
+//Route::delete("deleteuser/{id}",[UserController::class,'destroy']);
 
 Route::get("categories",[CategoryController::class,'index']);
-//Route::get("create",[LocationController::class,'create']);
-Route::post("add",[LocationController::class,'store']);
-Route::get("edit/{id}",[LocationController::class,'edit']);
-Route::post("update/{id}",[LocationController::class,'update']);
-Route::post("delete/{id}",[LocationController::class,'destroy']);
+Route::get("uncategorizedlocations",[LocationController::class,'index']);
+
+//Route::post("edit/{id}",[LocationController::class,'edit']);
+
 
 
 
@@ -51,19 +62,14 @@ Route::get("rooms",[RoomController::class,'index']);
 Route::get("rooms/{id}",[RoomController::class,'show']);
 Route::get("roomlist/{id}",[RoomController::class,'roomList']);
 //Route::post("addroom",[RoomController::class,'store']);
-//Route::get("edit/{id}",[UserController::class,'edit']);
-Route::post("updateroom/{id}",[RoomController::class,'update']);
-Route::post("deleteroom/{id}",[RoomController::class,'destroy']);
+Route::get("uncategorizedrooms",[RoomController::class,'index']);
+
 
 Route::get("category",[CategoryController::class,'index']);
 //Route::get("create",[CategoryController::class,'create']);
-Route::post("addcategory",[CategoryController::class,'store']);
-//Route::get("edit/{id}",[CategoryController::class,'edit']);
-Route::post("updatecategory/{id}",[CategoryController::class,'update']);
-Route::post("deletecategory/{id}",[CategoryController::class,'destroy']);
 
-Route::post("activities",[ActivityController::class,'index']);
-Route::get("activities/{id}",[ActivityController::class,'show']);
+//Route::get("edit/{id}",[CategoryController::class,'edit']);
+
 //Route::get("create",[ActivityController::class,'create']);
 //Route::post("addactivity",[ActivityController::class,'store']);
 //Route::get("edit/{id}",[ActivityController::class,'edit']);

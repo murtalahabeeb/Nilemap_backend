@@ -14,12 +14,14 @@ class CreateLocationsTable extends Migration
     public function up()
     {
         Schema::create('locations', function (Blueprint $table) {
-            $table->id("Location_id");
+            $table->id("Location_id")->unique();
             $table->string("Name");
             $table->string("Latitude");
             $table->string("Longitude");
-            $table->foreignId("category_id");
+            $table->foreignId("category_id")->nullable()->references('id')->on('categories')->nullOnDelete();
         });
+        
+       
     }
 
     /**
