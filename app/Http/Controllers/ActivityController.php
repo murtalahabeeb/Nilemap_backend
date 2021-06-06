@@ -39,7 +39,7 @@ $category_activities = DB::table('category_activities')->select("id"
 $deleted=DB::table('deleted_entities')->get();
     $all_activities=
        $location_activities->union($room_activities)->union($category_activities);
-        return $all_activities->get();
+        return $all_activities;
         
     }
 
