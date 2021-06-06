@@ -65,7 +65,7 @@ class LocationController extends Controller
         $location->category_id=$request->input('category_id');
         $loc_saved = $location->save();
         $activity = new Activity();
-        $activity->Location_id = $location->Location_id;
+        $activity->id = $location->Location_id;
         $activity->Type =$request->input('type'); //Create
         $activity->Change = $request->input('activity_performed'); //change will be changed to activity performed later on
         
@@ -85,7 +85,7 @@ class LocationController extends Controller
                     array_push($arr,$r['room_num']);
                 }
                 $ractivity = new RoomActivity();
-                $ractivity->Room_no = $r['room_num'];
+                $ractivity->id = $r['room_num'];
         
         $ractivity->Type =$request->input('type'); //Create
         $ractivity->Change = "Added Room".$r['room_num'];//change will be changed to activity performed later on
@@ -144,7 +144,7 @@ class LocationController extends Controller
         $location->category_id=$obj['category_id'];
         $loc_saved= $location->save();
         $activity = new Activity();
-        $activity->Location_id = $location->Location_id;
+        $activity->id = $location->Location_id;
         $activity->Type =$request->type; //Edit
         $activity->Change = "updated ".$location->Location_id."to $location->Name: ".$obj['lname'].", $location->Latitude: ".$obj['latitude'].", $location->Longitude: ".$obj['longitude'].", $location->category_id: ".$obj['category_id'];//change will be changed to activity performed later on
         $act_saved = $activity->save();
@@ -165,7 +165,7 @@ class LocationController extends Controller
                     array_push($arr,$r['room_num']);
                 }
                 $ractivity = new RoomActivity();
-                $ractivity->Room_no = $r['room_num'];
+                $ractivity->id = $r['room_num'];
         
         $ractivity->Type ="CREATE";
         $ractivity->Change = "Added Room".$r['room_num'];//change will be changed to activity performed later on

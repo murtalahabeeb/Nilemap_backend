@@ -56,7 +56,7 @@ class CategoryController extends Controller
         $activity = new CategoryActivity();
         //$activity->Category_id = $cate->id;
         // $activity->Performed_by = $request->user_id;
-        $activity->category_id=$cate->id;
+        $activity->id=$cate->id;
         $activity->Type =$request->type; //Edit
         $activity->Change = $request->activity_performed; //change will be changed to activity performed later on
         $act_saved = $activity->save();
@@ -110,7 +110,7 @@ class CategoryController extends Controller
         // $activity->Performed_by = $request->user_id;
         $activity->Type =$request->type; //Edit
         $activity->Change ="updated ".$cate->name."to $request->name:";
-        $activity->category_id =$cate->id; //Edit
+        $activity->id =$cate->id; //Edit
         $act_saved = $activity->save();
         
         if($cate_saved && $act_saved){
