@@ -93,7 +93,7 @@ class RoomController extends Controller
     public function update(Request $request, $id)
     {
         $room =Room::findOrFail($id);
-        $room->Room_no = $request->room_num;
+        $room->id = $request->room_num;
             $room->Desc = $request->desc;
             $room->Floor = $request->floor;
             $room->room_name = $request->room_name;
