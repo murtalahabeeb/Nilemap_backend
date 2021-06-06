@@ -18,7 +18,7 @@ class CreateLocationsTable extends Migration
             $table->string("Name");
             $table->string("Latitude");
             $table->string("Longitude");
-            $table->foreignId("category_id")->nullable()->references('id')->on('categories')->nullOnDelete();
+            $table->foreignId("category_id")->nullable()->references('id')->on('categories')->nullOnDelete()->cascadeOnUpdate();
         });
         
        

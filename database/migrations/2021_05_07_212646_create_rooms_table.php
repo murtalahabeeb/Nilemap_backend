@@ -17,10 +17,10 @@ class CreateRoomsTable extends Migration
             $table->id("Room_no")->unique();
             $table->mediumText("Desc");
             $table->string("Floor");
-            $table->foreignId("location_id")->references('Location_id')->on('locations')->cascadeOnDelete();
+            $table->foreignId("location_id")->references('Location_id')->on('locations')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("room_name")->nullable();
             //$table->string("occupied_by");
-            $table->foreignId("category_id")->nullable()->references('id')->on('categories')->nullOnDelete();
+            $table->foreignId("category_id")->nullable()->references('id')->on('categories')->nullOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
         
