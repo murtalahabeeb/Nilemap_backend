@@ -36,7 +36,7 @@ Route::post("addcategory",[CategoryController::class,'store']);
 Route::post("updatecategory/{id}",[CategoryController::class,'update']);
 Route::post("deletecategory/{id}",[CategoryController::class,'destroy']);
 
-Route::post("activities",[ActivityController::class,'index']);
+Route::get("activities",[ActivityController::class,'index']);
 Route::get("activities/{id}",[ActivityController::class,'show']);
     });
     
