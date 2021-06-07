@@ -45,10 +45,8 @@ class UserController extends Controller
     public function changePassword(Request $request, $id)
     {
         $user =User::findOrFail($id);
-        $user->name =$user->name;
-        $user->$id;
         $user->password = Hash::make($request->password);
-        $user->saved();
+        $user->save();
         return ["message"=>'success'];
     }
 
