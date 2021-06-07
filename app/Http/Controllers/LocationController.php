@@ -65,7 +65,7 @@ class LocationController extends Controller
             'type'  => 'required|max:255',
             'activity_performed'  => 'required|max:255',
             'rooms' => 'array',
-            Validator::make($request->rooms,['room_num'=>'unique']);
+            Validator::make($request->rooms,['room_num'=>'unique']),
            
         ]);
         if($validate->fails()){
@@ -158,7 +158,7 @@ class LocationController extends Controller
             'longitude'  => 'required|max:255',
             'type'  => 'required|max:255',
             'rooms' => 'array',
-            Validator::make($request->rooms,['room_num'=>'unique']);
+            Validator::make($request->rooms,['room_num'=>'unique']),
            
         ]);
         if($validate->fails()){
