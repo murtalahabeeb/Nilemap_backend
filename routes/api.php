@@ -38,6 +38,8 @@ Route::post("deletecategory/{id}",[CategoryController::class,'destroy']);
 
 Route::get("activities",[ActivityController::class,'index']);
 Route::get("activities/{id}",[ActivityController::class,'show']);
+Route::post("checkpassword/{id}",[UserController::class,'checkPassword']);
+Route::post("changepassword/{id}",[UserController::class,'changePassword']);
     });
     
 //Route::apiResource("location", LocationController::class);

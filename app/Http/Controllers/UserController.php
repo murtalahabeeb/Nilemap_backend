@@ -32,9 +32,22 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function checkPassword(Request $request, $id)
     {
-        //
+        $user =User::findOrFail($id);
+        if(!Hash::check($request->currentPassword, $user->password)){
+            return ["message"=>'These credentials do not match our records.'];
+        }else{
+            return ["message"=>'confirmed'];
+        }
+    }
+
+    public function changePassword(Request $request, $id)
+    {
+        $user =User::findOrFail($id);
+        $user->password = Hash::make($request->password);
+        $user->saved();
+        return ["message"=>'success'];
     }
 
     /**
