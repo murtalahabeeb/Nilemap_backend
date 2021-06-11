@@ -29,7 +29,14 @@ class CategoryController extends Controller
 
             $category->location;
         }
-        return $categories;
+        $locations =Location::where("category_id",null)->get();
+        $rooms =Room::where("category_id",null)->get();
+        foreach($rooms as $room){
+            $room->location;
+            
+        }
+        
+        return ['categories'=>$categories,'uncategorized'=>['locations'=>$locations,'rooms'=>$rooms]];
     }
 
     /**
@@ -60,6 +67,7 @@ class CategoryController extends Controller
         $activity->Type =$request->type; //Edit
         $activity->Change = $request->activity_performed; //change will be changed to activity performed later on
         $act_saved = $activity->save();
+
         if($cate_saved && $act_saved){
             return ['status'=>'success'];
         }elseif($cate_saved && !$act_saved){
