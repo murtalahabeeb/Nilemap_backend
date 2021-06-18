@@ -105,7 +105,7 @@ class RoomController extends Controller
 
         $activity->id = $request->room_num;
         $activity->Type =$request->type; //edit
-        $activity->Change = "updated ".$room->Room_no."to Room_no: ".$request->room_num.", Room_name: ".$request->room_name.", Desc: ".$request->desc.", Floor: ".$request->floor.", Category_id: ".$request->category_id.", Location_id: ".$request->location_id; //change will be changed to activity performed later on
+        $activity->Change = "updated ".$room->Room_no."to: Room_no: ".$request->room_num.", Room_name: ".$request->room_name.", Desc: ".$request->desc.", Floor: ".$request->floor.", Category_id: ".$request->category_id.", Location_id: ".$request->location_id; //change will be changed to activity performed later on
         $act_saved = $activity->save();
 
        

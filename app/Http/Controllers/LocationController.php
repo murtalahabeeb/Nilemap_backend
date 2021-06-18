@@ -146,7 +146,7 @@ class LocationController extends Controller
         $activity = new Activity();
         $activity->id = $location->Location_id;
         $activity->Type =$request->type; //Edit
-        $activity->Change = "updated ".$location->Location_id."to $location->Name: ".$obj['lname'].", $location->Latitude: ".$obj['latitude'].", $location->Longitude: ".$obj['longitude'].", $location->category_id: ".$obj['category_id'];//change will be changed to activity performed later on
+        $activity->Change = "updated location".$location->Location_id."to: $location->Name: ".$obj['lname'].", $location->Latitude: ".$obj['latitude'].", $location->Longitude: ".$obj['longitude'].", $location->category_id: ".$obj['category_id'];//change will be changed to activity performed later on
         $act_saved = $activity->save();
         
         
