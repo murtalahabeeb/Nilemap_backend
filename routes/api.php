@@ -20,6 +20,12 @@ use App\Http\Controllers\ActivityController;
 |
 */
 
+// DB_CONNECTION=mysql
+// DB_HOST=us-cdbr-east-03.cleardb.com
+// DB_PORT=3306
+// DB_DATABASE=heroku_e972a0a2e54e9a8
+// DB_USERNAME=bdb61da712fce5
+// DB_PASSWORD=202ae564
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

@@ -21,7 +21,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy("name", "asc")
+        ->get();
         foreach($categories as $category){
             foreach($category->room as $room){
                 $room->location;

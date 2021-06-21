@@ -9,5 +9,6 @@ class Activity extends Model
 {
     use HasFactory;
     protected $table = "location_activities";
+    
     // i might change location id to location name in activity table
 }
